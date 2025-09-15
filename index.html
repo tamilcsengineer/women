@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Safety App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #e91e63;
+            --secondary: #d81b60;
+            --accent: #ff4081;
+            --light: #fce4ec;
+            --dark: #880e4f;
+            --success: #4caf50;
+            --warning: #ffc107;
+            --danger: #f44336;
+            --gray: #f5f5f5;
+            --dark-gray: #333;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff0f5 0%, #e8f4f8 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 900px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Emergency Button */
+        .emergency-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to right, var(--danger), #d32f2f);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+        
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature-card {
+            background: var(--gray);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Voice Recognition */
+        .voice-control {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .voice-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .voice-btn.listening {
+            animation: pulse 1.5s infinite;
+            background: linear-gradient(to right, var(--success), #388e3c);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Contacts */
+        .trusted-contacts {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .trusted-contacts li {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .trusted-contacts li:last-child {
+            border-bottom: none;
+        }
+        
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .contact-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .contact-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .contact-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        /* Status Indicators */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+        
+        .status-dot.off {
+            background: var(--danger);
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--success);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .notification.error {
+            background: var(--danger);
+        }
+        
+        .notification.warning {
+            background: var(--warning);
+            color: #333;
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--success);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        /* Map Container */
+        .map-container {
+            height: 200px;
+            background: #eee;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+        
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Camera Preview */
+        .camera-container {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        #cameraPreview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .camera-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        /* Shake Sensitivity */
+        .sensitivity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .sensitivity-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+        
+        .sensitivity-option input {
+            margin: 0;
+        }
+        
+        /* Chat Container */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        #chatMessages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+        
+        .message.user {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.bot {
+            background-color: #fce4ec;
+            color: #880e4f;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        
+        #chatInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        
+        #sendChatBtn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Backend status */
+        .backend-status {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .backend-status h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #c8e6c9;
+        }
+        
+        .status-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .status-value {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        
+        .status-value.offline {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shield-alt"></i> Women Safety App</h1>
+            <p>Your safety is our priority - Advanced protective features</p>
+        </header>
+        
+        <div class="app-container">
+            <div class="panel">
+                <h2><i class="fas fa-bell"></i> Emergency Features</h2>
+                
+                <button class="emergency-btn" id="emergencyBtn">
+                    <i class="fas fa-bell"></i> EMERGENCY ALERT
+                </button>
+                
+                <div class="status-indicator">
+                    <div class="status-dot" id="locationStatus"></div>
+                    <span>Location Services: Active</span>
+                </div>
+                
+                <div class="status-indicator">
+                    <div class="status-dot" id="networkStatus"></div>
+                    <span>Network Connection: Stable</span>
+                </div>
+                
+                <div class="voice-control">
+                    <h3><i class="fas fa-microphone"></i> Voice Command</h3>
+                    <p>Press and hold to activate voice commands</p>
+                    <button class="voice-btn" id="voiceBtn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <div id="voiceStatus">Ready to listen...</div>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card" id="locationShareBtn">
+                        <h3><i class="fas fa-map-marker-alt"></i> Share Location</h3>
+                        <p>Share your location with trusted contacts</p>
+                    </div>
+                    <div class="feature-card" id="liveCameraBtn">
+                        <h3><i class="fas fa-video"></i> Live Camera</h3>
+                        <p>Stream live camera to trusted contacts</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><i class="fas fa-shake"></i> Shake to Alert</h3>
+                        <p>Shake your phone to trigger emergency alert</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><i class="fas fa-record-vinyl"></i> Auto Record</h3>
+                        <p>Automatically records during emergencies</p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 20px;"><i class="fas fa-sliders-h"></i> Shake Sensitivity</h3>
+                <div class="sensitivity-controls">
+                    <label class="sensitivity-option">
+                        <input type="radio" name="sensitivity" value="low" checked> 
+                        <span>Low Sensitivity (Call trusted contacts)</span>
+                    </label>
+                    <label class="sensitivity-option">
+                        <input type="radio" name="sensitivity" value="medium"> 
+                        <span>Medium Sensitivity (Send alert message)</span>
+                    </label>
+                    <label class="sensitivity-option">
+                        <input type="radio" name="sensitivity" value="high"> 
+                        <span>High Sensitivity (Call and share location)</span>
+                    </label>
+                </div>
+                
+                <div class="backend-status">
+                    <h3><i class="fas fa-server"></i> Backend Status</h3>
+                    <div class="status-item">
+                        <span>API Connection:</span>
+                        <span class="status-value" id="apiStatus">Checking...</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Database:</span>
+                        <span class="status-value" id="dbStatus">Checking...</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Authentication:</span>
+                        <span class="status-value" id="authStatus">Checking...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2><i class="fas fa-user-friends"></i> Trusted Contacts</h2>
+                
+                <ul class="trusted-contacts">
+                    <li>
+                        <div class="contact-info">
+                            <div class="contact-avatar">M</div>
+                            <div>
+                                <div>Mom</div>
+                                <div style="font-size: 0.8rem; color: #666;">+91 9025200380</div>
+                            </div>
+                        </div>
+                        <div class="contact-actions">
+                            <button class="contact-btn" data-number="+919025200380"><i class="fas fa-phone"></i></button>
+                            <button class="contact-btn" data-number="+919025200380" data-type="message"><i class="fas fa-sms"></i></button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="contact-info">
+                            <div class="contact-avatar">D</div>
+                            <div>
+                                <div>Dad</div>
+                                <div style="font-size: 0.8rem; color: #666;">+91 9876543210</div>
+                            </div>
+                        </div>
+                        <div class="contact-actions">
+                            <button class="contact-btn" data-number="+919876543210"><i class="fas fa-phone"></i></button>
+                            <button class="contact-btn" data-number="+919876543210" data-type="message"><i class="fas fa-sms"></i></button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="contact-info">
+                            <div class="contact-avatar">F</div>
+                            <div>
+                                <div>Friend</div>
+                                <div style="font-size: 0.8rem; color: #666;">+91 9123456789</div>
+                            </div>
+                        </div>
+                        <div class="contact-actions">
+                            <button class="contact-btn" data-number="+919123456789"><i class="fas fa-phone"></i></button>
+                            <button class="contact-btn" data-number="+919123456789" data-type="message"><i class="fas fa-sms"></i></button>
+                        </div>
+                    </li>
+                </ul>
+                
+                <h2><i class="fas fa-map"></i> My Location</h2>
+                <div class="map-container" id="mapContainer">
+                    <i class="fas fa-map-marked-alt" style="font-size: 2rem;"></i>
+                    <span style="margin-left: 10px;">Current Location: Loading...</span>
+                </div>
+                
+                <h2><i class="fas fa-camera"></i> Camera Stream</h2>
+                <div class="camera-container">
+                    <video id="cameraPreview" autoplay muted></video>
+                    <div class="camera-overlay">
+                        <button id="toggleCameraBtn" class="btn"><i class="fas fa-video"></i> Start Camera</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel" style="margin-top: 20px;">
+            <h2><i class="fas fa-comments"></i> Safety Chat</h2>
+            <p>Chat with our safety assistant for immediate help and guidance</p>
+            
+            <div class="chat-container">
+                <div id="chatMessages">
+                    <div class="message bot">Hello! I'm your safety assistant. How can I help you today?</div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Type your message...">
+                    <button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel" style="margin-top: 20px;">
+            <h2><i class="fas fa-cogs"></i> App Settings</h2>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee;">
+                <div>
+                    <h3>Discreet Mode</h3>
+                    <p>App appears as a different application</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="discreetMode">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee;">
+                <div>
+                    <h3>Auto Record</h3>
+                    <p>Automatically record during emergencies</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="autoRecord" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
+                <div>
+                    <h3>Shake to Alert</h3>
+                    <p>Enable shake detection for emergencies</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="shakeToAlert" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="app-footer">
+            <p>Women Safety App &copy; 2023 | All rights reserved</p>
+            <p>In case of emergency, please contact local authorities immediately</p>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // Firebase configuration (replace with your config)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "your-project-id.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project-id.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        // Initialize Firebase (commented out for demo)
+        // firebase.initializeApp(firebaseConfig);
+        // const db = firebase.firestore();
+        // const auth = firebase.auth();
+        
+        // Simulate Firebase initialization for demo
+        setTimeout(() => {
+            document.getElementById('apiStatus').textContent = 'Connected';
+            document.getElementById('apiStatus').className = 'status-value';
+            
+            document.getElementById('dbStatus').textContent = 'Connected';
+            document.getElementById('dbStatus').className = 'status-value';
+            
+            document.getElementById('authStatus').textContent = 'Authenticated';
+            document.getElementById('authStatus').className = 'status-value';
+        }, 2000);
+        
+        // Voice Recognition
+        const voiceBtn = document.getElementById('voiceBtn');
+        const voiceStatus = document.getElementById('voiceStatus');
+        let recognition;
+        
+        try {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.lang = 'en-US';
+            
+            recognition.onstart = function() {
+                voiceBtn.classList.add('listening');
+                voiceStatus.textContent = 'Listening... Speak now';
+                showNotification('Voice recognition activated', 'success');
+            };
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript.toLowerCase();
+                voiceStatus.textContent = `Heard: ${transcript}`;
+                
+                // Process voice commands
+                processVoiceCommand(transcript);
+            };
+            
+            recognition.onerror = function(event) {
+                voiceBtn.classList.remove('listening');
+                voiceStatus.textContent = 'Error occurred in recognition';
+                showNotification('Voice recognition error', 'error');
+            };
+            
+            recognition.onend = function() {
+                voiceBtn.classList.remove('listening');
+                voiceStatus.textContent = 'Ready to listen...';
+            };
+            
+            voiceBtn.addEventListener('mousedown', () => {
+                recognition.start();
+            });
+            
+            voiceBtn.addEventListener('mouseup', () => {
+                recognition.stop();
+            });
+        } catch (e) {
+            voiceStatus.textContent = 'Voice recognition not supported in this browser';
+            voiceBtn.disabled = true;
+        }
+        
+        // Process voice commands
+        function processVoiceCommand(command) {
+            if (command.includes('emergency') || command.includes('help')) {
+                activateEmergency();
+                showNotification('Emergency activated by voice command', 'error');
+            } else if (command.includes('location') || command.includes('where am i')) {
+                shareLocation();
+                showNotification('Location shared with trusted contacts', 'success');
+            } else if (command.includes('call')) {
+                if (command.includes('mom')) {
+                    callContact('+919025200380', 'Mom');
+                } else if (command.includes('dad')) {
+                    callContact('+919876543210', 'Dad');
+                } else if (command.includes('friend')) {
+                    callContact('+919123456789', 'Friend');
+                }
+            } else if (command.includes('alert') || command.includes('message')) {
+                sendAlertMessage();
+                showNotification('Alert message sent to trusted contacts', 'success');
+            } else if (command.includes('camera') || command.includes('video')) {
+                toggleCamera();
+            } else {
+                showNotification(`Command not recognized: ${command}`, 'warning');
+            }
+        }
+        
+        // Emergency Button
+        const emergencyBtn = document.getElementById('emergencyBtn');
+        let emergencyCountdown;
+        
+        emergencyBtn.addEventListener('click', () => {
+            emergencyBtn.innerHTML = '<i class="fas fa-skull"></i> EMERGENCY ACTIVATED (5)';
+            emergencyBtn.style.background = 'linear-gradient(to right, #000, #d32f2f)';
+            
+            let count = 5;
+            emergencyCountdown = setInterval(() => {
+                count--;
+                emergencyBtn.innerHTML = `<i class="fas fa-skull"></i> EMERGENCY ACTIVATED (${count})`;
+                
+                if (count <= 0) {
+                    clearInterval(emergencyCountdown);
+                    activateEmergency();
+                }
+            }, 1000);
+        });
+        
+        // Cancel emergency on second click
+        emergencyBtn.addEventListener('dblclick', () => {
+            clearInterval(emergencyCountdown);
+            emergencyBtn.innerHTML = '<i class="fas fa-bell"></i> EMERGENCY ALERT';
+            emergencyBtn.style.background = 'linear-gradient(to right, var(--danger), #d32f2f)';
+            showNotification('Emergency cancelled', 'success');
+        });
+        
+        // Activate emergency function
+        function activateEmergency() {
+            clearInterval(emergencyCountdown);
+            emergencyBtn.innerHTML = '<i class="fas fa-skull"></i> EMERGENCY ACTIVATED';
+            emergencyBtn.style.background = 'linear-gradient(to right, #000, #d32f2f)';
+            
+            // Call all trusted contacts
+            callContact('+919025200380', 'Mom');
+            callContact('+919876543210', 'Dad');
+            callContact('+919123456789', 'Friend');
+            
+            // Share location
+            shareLocation();
+            
+            // Start camera if enabled
+            if (document.getElementById('autoRecord').checked) {
+                toggleCamera();
+            }
+            
+            showNotification('Emergency alert sent to trusted contacts!', 'error');
+            
+            // In a real app, this would call your backend
+            // simulateBackendCall('emergency', {
+            //     contacts: ['+919025200380', '+919876543210', '+919123456789'],
+            //     location: currentLocation,
+            //     timestamp: new Date().toISOString()
+            // });
+        }
+        
+        // Call a contact
+        function callContact(number, name) {
+            showNotification(`Calling ${name} at ${number}...`, 'warning');
+            // In a real app, this would use Twilio API or device calling capabilities
+            console.log(`Calling ${name} at ${number}`);
+            
+            // Simulate call
+            setTimeout(() => {
+                showNotification(`Call with ${name} connected`, 'success');
+            }, 2000);
+            
+            // In a real app, this would call your backend
+            // simulateBackendCall('call', {
+            //     to: number,
+            //     from: 'WOMEN_SAFETY_APP',
+            //     message: 'Emergency alert from Women Safety App'
+            // });
+        }
+        
+        // Share location function
+        function shareLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        document.getElementById('mapContainer').innerHTML = `
+                            <i class="fas fa-map-marker-alt" style="color: var(--danger); font-size: 2rem;"></i>
+                            <span style="margin-left: 10px;">Location: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}</span>
+                        `;
+                        
+                        // Simulate sharing with trusted contacts
+                        showNotification('Location shared with trusted contacts', 'success');
+                        console.log(`Location shared: ${latitude}, ${longitude}`);
+                        
+                        // In a real app, this would call your backend
+                        // simulateBackendCall('location', {
+                        //     latitude: latitude,
+                        //     longitude: longitude,
+                        //     contacts: ['+919025200380', '+919876543210', '+919123456789'],
+                        //     timestamp: new Date().toISOString()
+                        // });
+                    },
+                    (error) => {
+                        document.getElementById('mapContainer').innerHTML = `
+                            <i class="fas fa-map-marker-alt" style="color: var(--danger); font-size: 2rem;"></i>
+                            <span style="margin-left: 10px;">Location: Unable to get location</span>
+                        `;
+                        showNotification('Failed to get location', 'error');
+                    }
+                );
+            } else {
+                document.getElementById('mapContainer').innerHTML = `
+                    <i class="fas fa-map-marker-alt" style="color: var(--danger); font-size: 2rem;"></i>
+                    <span style="margin-left: 10px;">Location: Geolocation not supported</span>
+                `;
+                showNotification('Geolocation not supported', 'error');
+            }
+        }
+        
+        // Send alert message
+        function sendAlertMessage() {
+            // Simulate sending alert messages to trusted contacts
+            showNotification('Alert message sent to trusted contacts', 'success');
+            console.log('Alert message sent to all trusted contacts');
+            
+            // In a real app, this would call your backend
+            // simulateBackendCall('alert', {
+            //     contacts: ['+919025200380', '+919876543210', '+919123456789'],
+            //     message: 'Emergency alert from Women Safety App',
+            //     timestamp: new Date().toISOString()
+            // });
+        }
+        
+        // Camera functionality
+        const toggleCameraBtn = document.getElementById('toggleCameraBtn');
+        const cameraPreview = document.getElementById('cameraPreview');
+        let cameraActive = false;
+        let stream = null;
+        
+        toggleCameraBtn.addEventListener('click', toggleCamera);
+        
+        function toggleCamera() {
+            if (cameraActive) {
+                // Stop camera
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+                cameraPreview.style.display = 'none';
+                toggleCameraBtn.innerHTML = '<i class="fas fa-video"></i> Start Camera';
+                showNotification('Camera stopped', 'success');
+                cameraActive = false;
+            } else {
+                // Start camera
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function(videoStream) {
+                            stream = videoStream;
+                            cameraPreview.srcObject = videoStream;
+                            cameraPreview.style.display = 'block';
+                            toggleCameraBtn.innerHTML = '<i class="fas fa-video-slash"></i> Stop Camera';
+                            showNotification('Camera started. Live streaming to trusted contacts.', 'success');
+                            cameraActive = true;
+                            
+                            // In a real app, this would call your backend to notify contacts
+                            // simulateBackendCall('camera', {
+                            //     status: 'started',
+                            //     timestamp: new Date().toISOString()
+                            // });
+                        })
+                        .catch(function(error) {
+                            showNotification('Unable to access camera: ' + error.message, 'error');
+                        });
+                } else {
+                    showNotification('Your browser does not support camera access', 'error');
+                }
+            }
+        }
+        
+        // Shake detection
+        let shakeThreshold = 15;
+        let lastX = 0, lastY = 0, lastZ = 0;
+        let shakeCount = 0;
+        
+        function initShakeDetection() {
+            if (window.DeviceMotionEvent) {
+                window.addEventListener('devicemotion', (event) => {
+                    if (!document.getElementById('shakeToAlert').checked) return;
+                    
+                    const acceleration = event.accelerationIncludingGravity;
+                    const { x, y, z } = acceleration;
+                    
+                    const deltaX = Math.abs(x - lastX);
+                    const deltaY = Math.abs(y - lastY);
+                    const deltaZ = Math.abs(z - lastZ);
+                    
+                    if (deltaX > shakeThreshold || deltaY > shakeThreshold || deltaZ > shakeThreshold) {
+                        shakeCount++;
+                        
+                        if (shakeCount > 2) {
+                            const sensitivity = document.querySelector('input[name="sensitivity"]:checked').value;
+                            handleShakeEvent(sensitivity);
+                            shakeCount = 0;
+                        }
+                    }
+                    
+                    lastX = x;
+                    lastY = y;
+                    lastZ = z;
+                });
+            }
+        }
+        
+        function handleShakeEvent(sensitivity) {
+            showNotification(`Shake detected with ${sensitivity} sensitivity`, 'warning');
+            
+            switch(sensitivity) {
+                case 'low':
+                    callContact('+919025200380', 'Mom');
+                    break;
+                case 'medium':
+                    sendAlertMessage();
+                    break;
+                case 'high':
+                    activateEmergency();
+                    break;
+            }
+            
+            // In a real app, this would call your backend
+            // simulateBackendCall('shake', {
+            //     sensitivity: sensitivity,
+            //     timestamp: new Date().toISOString()
+            // });
+        }
+        
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendChatBtn = document.getElementById('sendChatBtn');
+        
+        sendChatBtn.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+        
+        function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Add user message
+                addChatMessage(message, 'user');
+                chatInput.value = '';
+                
+                // Simulate bot response
+                setTimeout(() => {
+                    let response = generateBotResponse(message);
+                    addChatMessage(response, 'bot');
+                }, 1000);
+            }
+        }
+        
+        function addChatMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender);
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function generateBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('emergency') || lowerMessage.includes('help')) {
+                return "I've detected an emergency. Activating emergency protocol and notifying your trusted contacts.";
+            } else if (lowerMessage.includes('location') || lowerMessage.includes('where')) {
+                return "I'm sharing your current location with your trusted contacts. They will receive your coordinates.";
+            } else if (lowerMessage.includes('safe') || lowerMessage.includes('safety')) {
+                return "Your safety is my priority. I can help with emergency alerts, location sharing, and connecting you with trusted contacts.";
+            } else if (lowerMessage.includes('contact') || lowerMessage.includes('call')) {
+                return "I can help you call your trusted contacts. Who would you like to call? Mom, Dad, or Friend?";
+            } else {
+                return "I'm here to help with your safety needs. You can ask for emergency help, share your location, or contact your trusted ones.";
+            }
+        }
+        
+        // Contact buttons functionality
+        document.querySelectorAll('.contact-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const number = button.getAttribute('data-number');
+                const name = button.closest('li').querySelector('.contact-info div:first-child').textContent;
+                const type = button.getAttribute('data-type');
+                
+                if (type === 'message') {
+                    sendAlertMessage();
+                } else {
+                    callContact(number, name);
+                }
+            });
+        });
+        
+        // Location share button
+        document.getElementById('locationShareBtn').addEventListener('click', shareLocation);
+        
+        // Live camera button
+        document.getElementById('liveCameraBtn').addEventListener('click', toggleCamera);
+        
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            
+            if (type === 'error') {
+                notification.classList.add('error');
+            } else if (type === 'warning') {
+                notification.classList.add('warning');
+            }
+            
+            notification.style.display = 'block';
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Initialize the app
+        function initApp() {
+            showNotification('Women Safety App initialized successfully', 'success');
+            shareLocation();
+            initShakeDetection();
+        }
+        
+        // Initialize the app when the page loads
+        window.addEventListener('load', initApp);
+    </script>
+</body>
+</html>
